@@ -1,14 +1,19 @@
-from flask import Flask, request, render_template
 import pickle as pk
 import numpy as np
+import pandas as pd
+from flask import Flask, request, render_template
 
 # Flask constructor
 application = Flask(__name__)
-
+@application.route('/')
+def home():
+  return render_template("index.html")
 
 # A decorator used to tell the application
 # which URL is associated function
 # prediction function
+
+
 def ValuePredictor(to_predict_list):
     to_predict = np.array(to_predict_list).reshape(1, 12)
     loaded_model = pk.load(open("finalized_income_model.pk", "rb"))
@@ -31,3 +36,4 @@ def result():
 
 if __name__ == '__main__':
     application.run(debug=True)
+    application.config["TEMPLATES_AUTO_RELOAD"]=True
